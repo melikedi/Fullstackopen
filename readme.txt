@@ -1,6 +1,5 @@
 https://fullstackopen.com/ Exercise Repository
-```
-function test() {
-  console.log("notice the blank line before this function?");
-}
-```
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!
