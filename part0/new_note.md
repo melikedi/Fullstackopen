@@ -1,3 +1,4 @@
+```
 sequenceDiagram
     participant browser
     participant server
@@ -35,3 +36,4 @@ sequenceDiagram
     server-->>browser: data.json
     deactivate server
     Note left of server : The reload causes fetching the raw data of the notes
+```
