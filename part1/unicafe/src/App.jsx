@@ -1,44 +1,56 @@
 import { useState } from 'react'
+function Statistics({allClicks}){
+  const [good, bad, neutral] = [allClicks.good, allClicks.bad,allClicks.neutral]
+  const total = good + bad + neutral;
+  const avarage = (good - bad)/total;
+  const positive = good * 100/total + '%';
+  if(total === 0) {
+    return(
+      <div>No feedback given</div>
+    )
+  } else {
+    return (
+     <div>
+      <table>
+        <tbody>
+            <StatisticLine option='good' value={good}/>
+            <StatisticLine option='neutral' value={neutral}/>
+            <StatisticLine option='bad' value={bad}/>
+            <StatisticLine option='all' value={total}/>
+            <StatisticLine option='avarage' value={avarage}/>
+            <StatisticLine option='positive' value={positive}/>
+         
+        </tbody>
+      </table>
+     
+     </div>
+    )
+  }
+}
 function Button({handleClick,text}){
   return (
     <button onClick={handleClick}>{text}</button>
   )
 }
-function Display({option,voteCount}){
+function StatisticLine({option,value}){
   return (
-    <div>{option}:{voteCount}</div>
+    <tr><td>{option}</td><td>{value}</td></tr>
   )
 }
 function App() {
-  const [total, setTotal] = useState(0)
-  const [avarage, setAvarage] = useState(0)
-  const [positive, setPositive] = useState('')
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const computeStatistics = (good,bad,neutral) => {
-    const updatedTotal = good+bad+neutral;
-    setTotal(updatedTotal);
-    setPositive(good * 100/updatedTotal + '%');
-    setAvarage((good - bad)/updatedTotal);
-  }
+  const [allClicks, setClicks] = useState({good:0, bad:0, neutral:0})
+  
   const handleGoodClick = () => {
     console.log('good clicked'); 
-    const updatedGood = good+1; 
-    setGood(updatedGood); 
-    computeStatistics(updatedGood,bad,neutral);
+    setClicks({...allClicks, good:allClicks.good+1});
   }
   const handleBadClick = () => {
     console.log('bad clicked'); 
-    const updatedBad = bad+1; 
-    setBad(updatedBad);
-    computeStatistics(good,updatedBad,neutral);
+    setClicks({...allClicks, bad:allClicks.bad+1});
   }
   const handleNeutralClick = () => {
     console.log('neutral clicked'); 
-    const updatedNeutral = neutral+1;
-    setNeutral(updatedNeutral);
-    computeStatistics(good,bad,updatedNeutral);
+    setClicks({...allClicks, neutral:allClicks.neutral+1});
   }
   return (
 
@@ -48,12 +60,7 @@ function App() {
       <Button handleClick={handleNeutralClick} text='neutral'/>
       <Button handleClick={handleBadClick} text='bad'/>
       <h1>statistics</h1>
-      <Display option='good' voteCount={good}/>
-      <Display option='neutral' voteCount={neutral}/>
-      <Display option='bad' voteCount={bad}/>
-      <Display option='all' voteCount={total}/>
-      <Display option='avarage' voteCount={avarage}/>
-      <Display option='positive' voteCount={positive}/>
+      <Statistics allClicks={allClicks}></Statistics>
     </div>
 
   )
