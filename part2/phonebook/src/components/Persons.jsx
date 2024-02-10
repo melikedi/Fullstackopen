@@ -1,10 +1,10 @@
 import Person from './Person'
-function Persons({persons}){
+function Persons({persons, handleRemove}){
 return (
     <div>
         <ul>
             {persons.map(x=>
-                <Person key={x.name} person={x}/>
+                <Person key={x.name} person={x} handleRemove={()=>handleRemove(x)}/>
             )}
         </ul>
     </div>
